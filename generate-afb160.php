@@ -8,6 +8,19 @@
 	use Ladina\Factory\CFONBFactory;
 
 	// CFONB160 OU AFB160
+
+	/**
+	 * Emetteur possible field
+	 * protected $emetteur_fields = [
+	 *       'numero_emetteur' => [ 'length' => 6, 'mandat' => true ],
+	 *       'date_de_valeur' => [ 'length' => 5, 'mandat' => true, 'default' => 'now' ],
+	 *       'raison_sociale' => [ 'length' => 24, 'mandat' => true ],
+	 *       'reference_virement' => [ 'length' => 11, 'mandat' => true ],
+	 *       'numero_guichet' => [ 'length' => 5, 'mandat' => true ],
+	 *       'numero_compte' => [ 'length' => 11, 'mandat' => true ],
+	 *       'numero_etablissement' => [ 'length' => 5, 'mandat' => true ]
+	 * ];
+	 */
 	$emetteur = [
 		'numero_emetteur' => 'xxx',
 		'date_de_valeur' => strtotime( '+1 day' ),
@@ -17,6 +30,20 @@
 		'numero_compte' => 'xxxxxxxxxxx',
 		'numero_etablissement' => 'xxxx'
 	];
+
+	/**
+	 * Distinataire possible field
+	 * protected $destinataire_fields = [
+	 *       'reference_ligne' => [ 'length' => 12, 'mandat' => true ],
+	 *       'raison_sociale' => [ 'length' => 24, 'mandat' => true ],
+	 *       'banque' => [ 'length' => 20, 'mandat' => true ],
+	 *       'numero_guichet' => [ 'length' => 5, 'mandat' => true ],
+	 *       'numero_compte' => [ 'length' => 11, 'mandat' => true ],
+	 *       'montant' => [ 'length' => 16, 'mandat' => true ],
+	 *       'label' => [ 'length' => 31, 'mandat' => true ],
+	 *       'numero_etablissement' => [ 'length' => 5, 'mandat' => true ]
+	 * ];
+	 */
 
 	$destinataires = [
 		[
