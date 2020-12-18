@@ -17,25 +17,73 @@
 	 */
 	abstract class CFONB
 	{
+		/**
+		 * @var array
+		 */
 		protected $lines = [];
+		/**
+		 * @var string
+		 */
 		protected $content = '';
+		/**
+		 * @var array
+		 */
 		protected $emetteur = [];
+		/**
+		 * @var array
+		 */
 		protected $destinataire = [];
+		/**
+		 * @var array
+		 */
+		protected $intermediaire = [];
+		/**
+		 * @var array
+		 */
 		protected $data_emetteur = [];
+		/**
+		 * @var array
+		 */
 		protected $data_destinataire = [];
+
+		protected $data_intermediaire = [];
+
+		/**
+		 * @var int
+		 */
 		protected $total_amount = 0;
+		/**
+		 * @var string
+		 */
 		protected $afb_norme = '320';
 
 		/**
 		 * CFONB constructor.
 		 * @param $emetteur
 		 * @param $destinataire
+		 * @throws InvalidArgumentException
 		 */
-		public function __construct ( $emetteur, $destinataire,$afb_norme='320' )
+		public function __construct ( $afb_norme = '320',$data = []  )
 		{
-			$this->setAfbNorme($afb_norme);
-			$this->setEmetteur( $emetteur );
-			$this->setDestinataire( $destinataire );
+			$required = [ 'emetteur', 'destinataires' ];
+
+			foreach ( $required as $item )
+			{
+				if ( !isset( $data[ $item ] ) || empty( $data[ $item ] ) )
+				{
+					throw new InvalidArgumentException( "$item data is required" );
+				}
+			}
+
+			$this->setAfbNorme( $afb_norme );
+			$this->setEmetteur( $data[ 'emetteur' ] );
+			$this->setDestinataire( $data[ 'destinataires' ] );
+
+			if (isset($data['intermediaire']) && !empty($data['intermediaire']))
+			{
+				$this->setIntermediaire( $data[ 'intermediaire' ]);
+			}
+
 			$this->validateData();
 		}
 
@@ -76,6 +124,14 @@
 		}
 
 		/**
+		 * @return array
+		 */
+		public function getIntermediaire ()
+		{
+			return $this->intermediaire;
+		}
+
+		/**
 		 * Getter for total_amount
 		 * @return int
 		 */
@@ -97,7 +153,7 @@
 		 * Setter for content
 		 * @param string $content
 		 */
-		public function setContent ( string $content )
+		public function setContent ( $content )
 		{
 			$this->content = $content;
 		}
@@ -112,10 +168,18 @@
 		}
 
 		/**
+		 * @param array $intermediaire
+		 */
+		public function setIntermediaire ( $intermediaire )
+		{
+			$this->intermediaire = $intermediaire;
+		}
+
+		/**
 		 * Setter for $emetteur
 		 * @param array $emetteur
 		 */
-		public function setEmetteur ( array $emetteur )
+		public function setEmetteur ( $emetteur )
 		{
 			$this->emetteur = $emetteur;
 		}
@@ -155,6 +219,11 @@
 		{
 			$this->validateEmetteurFields( $this->emetteur );
 			$this->validateDestinataireFields( $this->destinataire );
+
+			if (!empty($this->intermediaire))
+			{
+				$this->validateIntermediaireFields( $this->intermediaire );
+			}
 		}
 
 		/**
@@ -213,7 +282,7 @@
 		}
 
 		/**
-		 * Abstract method to build each lines for each NORME (AFB320/AFB160)
+		 * Abstract method to build each lines for each NORM (AFB320/AFB160)
 		 * @return mixed
 		 */
 		abstract protected function buildLines ();
@@ -221,6 +290,62 @@
 		/**
 		 * Internal method
 		 */
+
+		private function validateProps ( $prop,$field, $to_validate )
+		{
+			$field_value = '';
+			if ( $prop[ 'required' ] )
+			{
+				if ( !array_key_exists( $field, $to_validate ) )
+				{
+					throw new InvalidArgumentException( "You must provid this mandatory field ${field}" );
+				}
+				else
+				{
+					if
+					(
+						isset( $prop[ 'default' ] ) &&
+						isset( $to_validate[ $field ] ) && $to_validate[ $field ] === 'useDefault'
+					)
+					{
+						$field_value = $prop[ 'default' ];
+					}
+					else
+					{
+						if ( $prop[ 'length' ] < strlen( $to_validate[ $field ] ) )
+						{
+							$to_validate[ $field ] = substr( $to_validate[ $field ], 0, $prop[ 'length' ] );
+						}
+						$field_value = $to_validate[ $field ];
+					}
+				}
+			}
+			else
+			{
+				if
+				(
+					isset( $prop[ 'default' ] ) &&
+					( !isset( $to_validate[ $field ] ) || $to_validate[ $field ] === 'useDefault' )
+				)
+				{
+					$field_value = $prop[ 'default' ];
+				}
+				else if ( isset( $to_validate[ $field ] ) )
+				{
+					if ( $prop[ 'length' ] < strlen( $to_validate[ $field ] ) )
+					{
+						$to_validate[ $field ] = substr( $to_validate[ $field ], 0, $prop[ 'length' ] );
+					}
+					$field_value = $to_validate[ $field ];
+				}
+				else
+				{
+					$field_value = '';
+				}
+			}
+
+			return $field_value;
+		}
 
 		/**
 		 * Validate emetteur data
@@ -231,58 +356,7 @@
 		{
 			foreach ( $this->emetteur_fields as $field => $prop )
 			{
-				if ( $prop[ 'mandat' ] )
-				{
-					if ( !array_key_exists( $field, $emetteur ) )
-					{
-						throw new InvalidArgumentException( "You must provid this mandatory field ${field}" );
-					}
-					else
-					{
-						if
-						(
-							isset( $prop[ 'default' ] ) &&
-							isset( $emetteur[ $field ] ) &&
-							$emetteur[ $field ] == 'useDefault'
-						)
-						{
-							$this->data_emetteur[ $field ] = $prop[ 'default' ];
-						}
-						else
-						{
-							if ( $prop[ 'length' ] < strlen( $emetteur[ $field ] ) )
-							{
-								$emetteur[ $field ] = substr( $emetteur[ $field ], 0, $prop[ 'length' ] );
-							}
-							$this->data_emetteur[ $field ] = $emetteur[ $field ];
-						}
-					}
-				}
-				else
-				{
-					if
-					(
-						isset( $prop[ 'default' ] ) &&
-						( !isset( $emetteur[ $field ] ) ||
-							$emetteur[ $field ] == 'useDefault'
-						)
-					)
-					{
-						$this->data_emetteur[ $field ] = $prop[ 'default' ];
-					}
-					else if ( !empty( $emetteur[ $field ] ) )
-					{
-						if ( $prop[ 'length' ] < strlen( $emetteur[ $field ] ) )
-						{
-							$emetteur[ $field ] = substr( $emetteur[ $field ], 0, $prop[ 'length' ] );
-						}
-						$this->data_emetteur[ $field ] = $emetteur[ $field ];
-					}
-					else
-					{
-						$this->data_emetteur[ $field ] = '';
-					}
-				}
+				$this->data_emetteur[$field] = $this->validateProps ( $prop,$field, $emetteur );
 			}
 
 			$this->sanitize_string( $this->data_emetteur );
@@ -301,62 +375,21 @@
 			{
 				foreach ( $destinataire as $key => $desti )
 				{
-					if ( $prop[ 'mandat' ] )
-					{
-						if ( !array_key_exists( $field, $desti ) )
-						{
-							throw new InvalidArgumentException( "You must provid this mandatory field ${field}" );
-						}
-						else
-						{
-							if
-							(
-								isset( $prop[ 'default' ] ) &&
-								isset( $desti[ $field ] ) &&
-								$desti[ $field ] == 'useDefault'
-							)
-							{
-								$this->data_destinataire[ $key ][ $field ] = $prop[ 'default' ];
-							}
-							else
-							{
-								if ( $prop[ 'length' ] < strlen( $desti[ $field ] ) )
-								{
-									$desti[ $field ] = substr( $desti[ $field ], 0, $prop[ 'length' ] );
-								}
-								$this->data_destinataire[ $key ][ $field ] = $desti[ $field ];
-							}
-						}
-					}
-					else
-					{
-						if
-						(
-							isset( $prop[ 'default' ] ) &&
-							(
-								!isset( $desti[ $field ] ) || $desti[ $field ] == 'useDefault'
-							)
-						)
-						{
-							$this->data_destinataire[ $key ][ $field ] = $prop[ 'default' ];
-						}
-						else if ( !empty( $desti[ $field ] ) )
-						{
-							if ( $prop[ 'length' ] < mb_strlen( $desti[ $field ] ) )
-							{
-								$desti[ $field ] = substr( $desti[ $field ], 0, $prop[ 'length' ] );
-							}
-							$this->data_destinataire[ $key ][ $field ] = $desti[ $field ];
-						}
-						else
-						{
-							$this->data_destinataire[ $key ][ $field ] = '';
-						}
-					}
+					$this->data_destinataire[ $key ][ $field ] = $this->validateProps ( $prop,$field, $desti );
 				}
 			}
 
 			$this->sanitize_string( $this->data_destinataire );
+		}
+
+		private function validateIntermediaireFields ( $intermediaire )
+		{
+			foreach ( $this->intermediaire_fields as $field => $prop )
+			{
+				$this->data_intermediaire[$field] = $this->validateProps ( $prop,$field, $intermediaire );
+			}
+
+			$this->sanitize_string( $this->data_intermediaire );
 		}
 
 		/**
@@ -397,7 +430,7 @@
 		{
 			if ( !$filename )
 			{
-				$filename = "CFONB_AFB".$this->getAfbNorme()."_" . $this->getMY();
+				$filename = "CFONB_AFB" . $this->getAfbNorme() . "_" . $this->getMY();
 			}
 
 			header( 'Content-Type: text/plain' );

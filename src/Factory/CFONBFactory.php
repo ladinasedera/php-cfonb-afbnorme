@@ -21,7 +21,7 @@
 		 * @param string $afb_norme
 		 * @param array $data
 		 * @return AFB160|AFB320
-		 * @throws InvalidArgumentException1
+		 * @throws InvalidArgumentException
 		 */
 		public static function generateAFB ( $afb_norme = '320', $data = [] )
 		{
@@ -35,15 +35,12 @@
 				}
 			}
 
-			$emetteur = $data[ 'emetteur' ];
-			$destinataires = $data[ 'destinataires' ];
-
-			if ( $afb_norme == '320' )
+			if ( $afb_norme === '320' )
 			{
-				return self::buildAFB320( $emetteur, $destinataires );
+				return self::buildAFB320($afb_norme,$data );
 			}
 
-			return self::buildAFB160( $emetteur, $destinataires );
+			return self::buildAFB160( $afb_norme,$data );
 		}
 
 		/**
@@ -52,9 +49,9 @@
 		 * @param $destinataires
 		 * @return AFB320
 		 */
-		public static function buildAFB320 ( $emetteur, $destinataires )
+		public static function buildAFB320 ( $afb_norme,$data )
 		{
-			return new AFB320( $emetteur, $destinataires, '320' );
+			return new AFB320( $afb_norme,$data );
 		}
 
 		/**
@@ -63,8 +60,8 @@
 		 * @param $destinataires
 		 * @return AFB160
 		 */
-		public static function buildAFB160 ( $emetteur, $destinataires )
+		public static function buildAFB160 ( $afb_norme,$data )
 		{
-			return new AFB160( $emetteur, $destinataires, '160' );
+			return new AFB160( $afb_norme,$data );
 		}
 	}
