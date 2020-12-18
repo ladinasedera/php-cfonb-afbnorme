@@ -2,6 +2,7 @@
 	/**
 	 * Copyright (c) - 2020 : Ladina Sedera
 	 */
+
 	namespace Tools;
 
 	class Str
@@ -10,7 +11,7 @@
 		 * @param $string
 		 * @return string
 		 */
-		public static function sanitize($string)
+		public static function sanitize ( $string )
 		{
 			$map = [
 				// German
@@ -28,9 +29,15 @@
 				'ñ' => 'n', 'ń' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ø' => 'o', 'ð' => 'o',
 				'ș' => 's', 'š' => 's', 'ț' => 't',
 				'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'ÿ' => 'y',
-				'Ð' => 'Dj','Ž' => 'Z', 'ž' => 'z',
+				'Ð' => 'Dj', 'Ž' => 'Z', 'ž' => 'z',
 			];
-			$tmp = strtoupper(strtr($string, $map));
+			$tmp = strtoupper( strtr( $string, $map ) );
 			return preg_replace( '#[^A-Z0-9"\.\)\(/ -]#', '', $tmp );
+		}
+
+		public static function remapAmount ( $amount,$decimal=2 )
+		{
+			$amount = (float) $amount;
+			return str_replace( [ '.', ',' ], '', number_format( $amount, $decimal ) );
 		}
 	}

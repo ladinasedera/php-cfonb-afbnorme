@@ -7,6 +7,9 @@ La norme [AFB160](https://fr.wikipedia.org/wiki/AFB160) ou CFONB160 est une norm
 ### AFB320 ou CFONB320
 La norme [AFB320](https://fr.wikipedia.org/wiki/AFB320) ou CFONB320 est une norme française, définie par le Comité français d'organisation et de normalisation bancaires et répondant aux besoins de l’Association française des banques (AFB), en matière de **virement étranger**.
 
+Remises Informatisées d’Ordres de Paiement International au format 320 caractères 
+ documentation [ici](https://www.cfonb.org/fichiers/20171002171114_Brochure_Rem_inf_ordres_paiement_international_320C_V4.pdf)
+
 # ABOUT THIS LIBRARY [en]
 ## php-cfonb-afbnorme
 
