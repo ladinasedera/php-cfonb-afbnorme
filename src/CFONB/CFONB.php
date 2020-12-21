@@ -244,7 +244,7 @@
 					}
 				}
 
-				$this->content = implode( PHP_EOL, $this->lines );
+				$this->content = implode( "\r\n", $this->lines );
 			}
 			else
 			{
