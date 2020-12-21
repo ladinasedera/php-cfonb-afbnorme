@@ -16,7 +16,7 @@
     "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/lekidybeloha/intl-payment-xml.git"
+        "url": "https://github.com/ladinasedera/php-cfonb-afbnorme.git"
     }
     ],
     "autoload": {
