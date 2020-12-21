@@ -24,6 +24,7 @@
 			'address1' => [ 'length' => 35, 'required' => true ],
 			'address2' => [ 'length' => 35, 'required' => false ],
 			'address3' => [ 'length' => 35, 'required' => false ],
+			'qualifiant_address' => [ 'length' => 3, 'required' => false ],
 			'siret' => [ 'length' => 14, 'required' => false, 'default' => 'xxxxxxxxxxxx' ],
 			'reference_virement' => [ 'length' => 16, 'required' => true ],
 			'bic' => [ 'length' => 11, 'required' => false, 'default' => 'xxxxxxxx' ],
@@ -69,7 +70,7 @@
 			'date_execution' => [ 'length' => 10, 'required' => false, 'default' => 'now' ],
 			'devise' => [ 'length' => 3, 'required' => false, 'default' => 'USD' ],
 			'motif' => [ 'length' => 140, 'required' => false ],
-			'instruction_particulier' => [ 'length' => 105, 'required' => false ],
+			'instruction_particulier' => [ 'length' => 105, 'required' => false, 'default' => 'BONL' ],
 		];
 
 		protected $intermediaire_fields = [
@@ -112,8 +113,8 @@
 			foreach ( $this->data_destinataire as $desti )
 			{
 				$this->lines[] = $this->getDestinataireLine( $desti );
-//				$this->lines[] = $this->getBeneficiaryBank( $desti );
-//				$this->lines[] = $this->getComplementaryPayementInfo( $desti );
+				$this->lines[] = $this->getBeneficiaryBank( $desti );
+				$this->lines[] = $this->getComplementaryPayementInfo( $desti );
 			}
 
 			if ( !empty( $this->data_intermediaire ) )
@@ -142,7 +143,7 @@
 
 			$remise_type = $this->data_emetteur[ 'type_remise' ];
 
-			$type_remise = ( $remise_type == 1 || $remise_type == 2 ) ? date( 'Ymd', $date_execution ) : null;
+			$date = ( $remise_type == 1 || $remise_type == 2 ) ? date( 'Ymd', $date_execution ) : null;
 
 			$devise = $this->data_emetteur[ 'devise' ];
 
@@ -163,10 +164,14 @@
 				sprintf( '%-1s', $numero_compte_frais ) .
 				sprintf( '%-34s', $this->data_emetteur[ 'numero_compte_frais' ] ) .
 				sprintf( '%-3s', $this->data_emetteur[ 'devise_compte_frais' ] ) .
-				sprintf( '%16s', null ) .
+				sprintf( '%-4s', null ) .
+				sprintf( '%-1s', null ) .
+				sprintf( '%-3s', null ) .
+				sprintf( '%-3s', $this->data_emetteur[ 'qualifiant_address' ] ) .
+				sprintf( '%-5s', null ) .
 				sprintf( '%-1s', $this->data_emetteur[ 'type_debit' ] ) .
 				sprintf( '%-1s', $this->data_emetteur[ 'type_remise' ] ) .
-				sprintf( '%-8s', $type_remise ) .
+				sprintf( '%-8s', $date ) .
 				sprintf( '%-3s', ( $remise_type == 1 || $remise_type == 3 ) ? $devise : null );
 		}
 
@@ -214,7 +219,6 @@
 				sprintf( '%-8s', ( $remise_type == 3 || $remise_type == 4 ) ? date( 'Ymd', $date_execution ) : null ) .
 				sprintf( '%-3s', ( $remise_type == 2 || $remise_type == 4 ) ? $desti[ 'devise' ] : null );
 
-//			$this->setNumberOfSequence();
 			$this->setTotalAmount( $remap_amount );
 
 			return $destiLines;
