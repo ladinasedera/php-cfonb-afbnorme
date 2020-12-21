@@ -107,7 +107,7 @@
 	{
 		$cfonbafb320 = CFONBFactory::generateAFB( '320', [
 			'emetteur' => $emetteur,
-			'intermediaire' => $intermediaire, // Optional
+//			'intermediaire' => $intermediaire, // Optional
 			'destinataires' => $destinataires
 		] );
 
