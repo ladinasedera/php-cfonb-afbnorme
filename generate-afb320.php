@@ -1,4 +1,14 @@
 <?php
+    /**
+     * Document officielle V4 :
+     * https://www.cfonb.org/fichiers/20171002171114_Brochure_Rem_inf_ordres_paiement_international_320C_V4.pdf
+     *
+     * https://fr.wikipedia.org/wiki/AFB320
+     *
+     * http://segs.free.fr/Fichiers/CFONB%20-%20Structure%20des%20fichiers%20ETEBAC3.pdf
+     *
+     * http://documentation.sepamail.org/images/f/fa/EBICS_IG_V1_3_Annexe_2_Nommage_Fichiers_VF_24092010CLEAN-CYV.pdf
+    */
 	ini_set( 'error_reporting', E_ALL );
 	ini_set( 'display_errors', 1 );
 	ini_set( 'log_errors', 1 );
@@ -75,20 +85,40 @@
 	 * ];
 	 */
 	$destinataires = [
-		[
-			'reference' => 'VIR.1',
-			'raison_sociale' => 'MILOU',
-			'numero_compte' => 'xxxxxxxxxxxxxxxxxxxxxxxxx',
-			'montant' => 10000,
-			'pays' => 'FR'
-		],
-		[
-			'reference' => 'VIR.2',
-			'raison_sociale' => 'TINTIN',
-			'numero_compte' => 'xxxxxxxxxxxxxxxxxxxxxxxxx',
-			'montant' => 25000,
-			'pays' => 'FR'
-		]
+	    [
+	        'reference' => 'VIR.1',
+            'raison_sociale' => 'Nom 1',
+            'address1' => 'society_address',
+            'nom_banque' => 'bank_name',
+            'bank_address' => 'bank_address',
+            'type_num_compte' => 1,
+            'numero_compte' => 'xxxxxxxxxxxxxxxxxxxxxxxxx',
+            'bic' => "BMOIMGMG",
+            'montant' => 10000,
+            'devise' => "EUR",
+            'pays' => "FR",
+            'motif' => "/INV/raison//RFB/raison",
+            'frais' => 14,
+            'code_eco' => 'E01',
+            'pays_BDF' => ''
+        ],
+		 [
+	        'reference' => 'VIR.2',
+            'raison_sociale' => 'Nom 2',
+            'address1' => 'society_address 2',
+            'nom_banque' => 'bank_name',
+            'bank_address' => 'bank_address',
+            'type_num_compte' => 1,
+            'numero_compte' => 'xxxxxxxxxxxxxxxxxxxxxxxxx',
+            'bic' => "BMOIMGMG",
+            'montant' => 25000,
+            'devise' => "EUR",
+            'pays' => "FR",
+            'motif' => "/INV/raison 2//RFB/raison 2",
+            'frais' => 14,
+            'code_eco' => 'E01',
+            'pays_BDF' => ''
+        ]
 	];
 
 	/**

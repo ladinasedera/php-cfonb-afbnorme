@@ -4,6 +4,16 @@
 	 * http://ladina.fitiavana.mg
 	 */
 
+    /**
+     * Document officielle V4 :
+     * https://www.cfonb.org/fichiers/20171002171114_Brochure_Rem_inf_ordres_paiement_international_320C_V4.pdf
+     *
+     * https://fr.wikipedia.org/wiki/AFB320
+     *
+     * http://segs.free.fr/Fichiers/CFONB%20-%20Structure%20des%20fichiers%20ETEBAC3.pdf
+     *
+     * http://documentation.sepamail.org/images/f/fa/EBICS_IG_V1_3_Annexe_2_Nommage_Fichiers_VF_24092010CLEAN-CYV.pdf
+     */
 	namespace Ladina\CFONB;
 
 	use Library\Exception\InvalidArgumentException;
@@ -47,6 +57,7 @@
 		protected $destinataire_fields = [
 			'type_num_compte' => [ 'length' => 1, 'required' => false, 'default' => 1 ],
 			'nom_banque' => [ 'length' => 140, 'required' => false ],
+			'bank_address' => [ 'length' => 105, 'required' => false ],
 			'numero_compte' => [ 'length' => 34, 'required' => false ],
 			'raison_sociale' => [ 'length' => 35, 'required' => true ],
 			'address1' => [ 'length' => 35, 'required' => false ],
@@ -235,19 +246,25 @@
 			$this->setNumberOfSequence();
 
 			$nom_banque = '';
-			if ( $desti[ 'bic' ] === '' )
+			if ( $desti[ 'bic' ] === '' && $desti[ 'nom_banque' ] === '')
 			{
-				if ( $desti[ 'nom_banque' ] === '' )
-				{
-					throw new InvalidArgumentException( "You must provid beneficiary bank name OR BIC code" );
-				}
-
-				$nom_banque = $desti[ 'nom_banque' ];
+				throw new InvalidArgumentException( "You must provid beneficiary bank name OR BIC code" );
 			}
 
+            if ( $desti[ 'nom_banque' ] !== '')
+            {
+                $nom_banque = $desti[ 'nom_banque' ];
+            }
+
+			$nom_banque =  strlen($nom_banque) > 35 ? sprintf('%-70s',$nom_banque) : sprintf('%-35s',$nom_banque);
+
+            if ( $desti[ 'bank_address' ] !== '' )
+            {
+                $nom_banque .=$desti[ 'bank_address' ];
+            }
 			return '05' . 'PI' .
 				sprintf( '%06s', $this->number_of_sequence ) .
-				sprintf( '%140s', $nom_banque ) .
+				sprintf( '%-140s', $nom_banque ) .
 				sprintf( '%-11s', $desti[ 'bic' ] ) .
 				sprintf( '%-2s', $desti[ 'pays' ] ) .
 				sprintf( '%157s', null );
@@ -286,7 +303,7 @@
 			$this->setNumberOfSequence();
 			return '07' . 'PI' .
 				sprintf( '%06s', $this->number_of_sequence ) .
-				sprintf( '%140s', $desti[ 'motif' ] ) .
+				sprintf( '%-140s', $desti[ 'motif' ] ) .
 				sprintf( '%-1s', null ) .
 				sprintf( '%-16s', null ) .
 				sprintf( '%-8s', null ) .
