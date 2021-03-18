@@ -1,4 +1,14 @@
 <?php
+    /**
+     * Document officielle V4 :
+     * https://www.cfonb.org/fichiers/20171002171114_Brochure_Rem_inf_ordres_paiement_international_320C_V4.pdf
+     *
+     * https://fr.wikipedia.org/wiki/AFB320
+     *
+     * http://segs.free.fr/Fichiers/CFONB%20-%20Structure%20des%20fichiers%20ETEBAC3.pdf
+     *
+     * http://documentation.sepamail.org/images/f/fa/EBICS_IG_V1_3_Annexe_2_Nommage_Fichiers_VF_24092010CLEAN-CYV.pdf
+     */
 	ini_set( 'error_reporting', E_ALL );
 	ini_set( 'display_errors', 1 );
 	ini_set( 'log_errors', 1 );
