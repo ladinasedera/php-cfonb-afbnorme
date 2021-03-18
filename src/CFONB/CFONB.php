@@ -4,6 +4,16 @@
 	 * http://ladina.fitiavana.mg
 	 */
 
+    /**
+     * Document officielle V4 :
+     * https://www.cfonb.org/fichiers/20171002171114_Brochure_Rem_inf_ordres_paiement_international_320C_V4.pdf
+     *
+     * https://fr.wikipedia.org/wiki/AFB320
+     *
+     * http://segs.free.fr/Fichiers/CFONB%20-%20Structure%20des%20fichiers%20ETEBAC3.pdf
+     *
+     * http://documentation.sepamail.org/images/f/fa/EBICS_IG_V1_3_Annexe_2_Nommage_Fichiers_VF_24092010CLEAN-CYV.pdf
+     */
 	namespace Ladina\CFONB;
 
 	use Library\Exception\InvalidArgumentException;
@@ -57,12 +67,12 @@
 		 */
 		protected $afb_norme = '320';
 
-		/**
-		 * CFONB constructor.
-		 * @param $emetteur
-		 * @param $destinataire
-		 * @throws InvalidArgumentException
-		 */
+        /**
+         * CFONB constructor.
+         * @param string $afb_norme
+         * @param array $data
+         * @throws InvalidArgumentException
+         */
 		public function __construct ( $afb_norme = '320',$data = []  )
 		{
 			$required = [ 'emetteur', 'destinataires' ];
@@ -291,6 +301,13 @@
 		 * Internal method
 		 */
 
+        /**
+         * @param $prop
+         * @param $field
+         * @param $to_validate
+         * @return false|mixed|string
+         * @throws InvalidArgumentException
+         */
 		private function validateProps ( $prop,$field, $to_validate )
 		{
 			$field_value = '';
@@ -439,7 +456,7 @@
 			header( "Content-Transfer-Encoding: binary" );
 			header( "Expires: 0" );
 			header( "Pragma: public" );
-			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
+			header( "Cache-Controlq: must-revalidate, post-check=0, pre-check=0" );
 
 			ob_clean();
 			flush();
