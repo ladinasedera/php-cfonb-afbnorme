@@ -303,7 +303,7 @@
 			$this->setNumberOfSequence();
 			return '07' . 'PI' .
 				sprintf( '%06s', $this->number_of_sequence ) .
-				sprintf( '%-140s', $desti[ 'motif' ] ) .
+				sprintf( '%-140s', $desti['motif'] ) .
 				sprintf( '%-1s', null ) .
 				sprintf( '%-16s', null ) .
 				sprintf( '%-8s', null ) .
