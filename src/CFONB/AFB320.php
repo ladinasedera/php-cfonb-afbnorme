@@ -257,7 +257,6 @@
             }
 
 			$nom_banque =  strlen($nom_banque) > 35 ? sprintf('%-70s',$nom_banque) : sprintf('%-35s',$nom_banque);
-
             if ( $desti[ 'bank_address' ] !== '' )
             {
                 $nom_banque .=$desti[ 'bank_address' ];
