@@ -200,9 +200,13 @@
 
 			$decimales = $desti[ 'decimales' ];
 			$remap_amount = Str::remapAmount( $desti[ 'montant' ], $decimales );
+			$type_num_compte = $desti[ 'type_num_compte' ];
+
+			$blank_4 = $type_num_compte == 2 ? sprintf( '%-4s', null ) : '';
+
 			$destiLines = '04' . 'PI' .
 				sprintf( '%06s', $this->number_of_sequence ) .
-				sprintf( '%-1s', $desti[ 'type_num_compte' ] ) .
+				sprintf( '%-1s', $type_num_compte ) .$blank_4.
 				sprintf( '%-34s', $desti[ 'numero_compte' ] ) .
 				sprintf( '%-35s', $desti[ 'raison_sociale' ] ) .
 				sprintf( '%-35s', $desti[ 'address1' ] ) .
