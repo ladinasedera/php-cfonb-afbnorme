@@ -145,7 +145,7 @@
 		 * To Build File Content and download file
 		 * @param string $filename (The name of file to download)
 		 */
-//		$cfonbafb320->downloadFile();
+		$cfonbafb320->downloadFile();
 
 		/**
 		 * Build File
@@ -153,15 +153,15 @@
 		 * $get_content = true (get the file content)
 		 * @return $this|string
 		 */
-		$cfonbafb320->build();
+//		$cfonbafb320->build();
 
 		/**
 		 * After build file you can get it's content
 		 * OR you can this by using $cfonbafb320->build(true);
 		 * @return string
 		 */
-		$content = $cfonbafb320->getContent();
-		echo "<pre>$content</pre>";
+//		$content = $cfonbafb320->getContent();
+//		echo "<pre>$content</pre>";
 	}
 	catch ( \Exception $e )
 	{
