@@ -202,7 +202,7 @@
 			$remap_amount = Str::remapAmount( $desti[ 'montant' ], $decimales );
 			$type_num_compte = $desti[ 'type_num_compte' ];
 
-			$blank_4 = $type_num_compte == 2 ? sprintf( '%-5s', null ) : '';
+			$blank_4 = $type_num_compte == 2 ? sprintf( '%-4s', null ) : '';
 
 			$destiLines = '04' . 'PI' .
 				sprintf( '%06s', $this->number_of_sequence ) .
