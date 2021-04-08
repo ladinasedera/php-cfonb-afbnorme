@@ -91,8 +91,8 @@
             'address1' => 'society_address',
             'nom_banque' => 'bank_name',
             'bank_address' => 'bank_address',
-            'type_num_compte' => 1,
-            'numero_compte' => 'xxxxxxxxxxxxxxxxxxxxxxxxx',
+            'type_num_compte' => 2,
+            'numero_compte' => '1111111111',
             'bic' => "BMOIMGMG",
             'montant' => 10000,
             'devise' => "EUR",
@@ -145,7 +145,7 @@
 		 * To Build File Content and download file
 		 * @param string $filename (The name of file to download)
 		 */
-		$cfonbafb320->downloadFile();
+//		$cfonbafb320->downloadFile();
 
 		/**
 		 * Build File
@@ -153,15 +153,15 @@
 		 * $get_content = true (get the file content)
 		 * @return $this|string
 		 */
-//		$cfonbafb320->build();
+		$cfonbafb320->build();
 
 		/**
 		 * After build file you can get it's content
 		 * OR you can this by using $cfonbafb320->build(true);
 		 * @return string
 		 */
-//		$content = $cfonbafb320->getContent();
-//		echo "<pre>$content</pre>";
+		$content = $cfonbafb320->getContent();
+		echo "<pre>$content</pre>";
 	}
 	catch ( \Exception $e )
 	{
