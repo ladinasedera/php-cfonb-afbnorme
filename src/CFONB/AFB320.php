@@ -379,11 +379,11 @@
             $type_num_compte     = $desti[ 'type_num_compte' ];
             $count_numcompte     = 34;
             $blank_4             = '';
-            if ( $type_num_compte == 2 )
-            {
-                $blank_4         = sprintf ( '%-4s', null );
-                $count_numcompte -= 4;
-            }
+//            if ( $type_num_compte == 2 )
+//            {
+//                $blank_4         = sprintf ( '%-4s', null );
+//                $count_numcompte -= 4;
+//            }
             $destiLines = '04' . 'PI' .
                 sprintf ( '%06s', $this->number_of_sequence ) .
                 sprintf ( '%-1s', $type_num_compte ) . $blank_4 .

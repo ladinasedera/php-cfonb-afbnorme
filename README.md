@@ -11,9 +11,9 @@ Remises Informatisées d’Ordres de Paiement International au format 320 caract
  documentation [ici](https://www.cfonb.org/fichiers/20171002171114_Brochure_Rem_inf_ordres_paiement_international_320C_V4.pdf)
 
 # ABOUT THIS LIBRARY [en]
-## php-cfonb-afbnorme
+## php-cfonb-afbnorme``
 
-PHP Library to generate AFB320 (for international payement) OR AFB160 (for national payement) file
+PHP Library to generate AFB320 (for international payment) OR AFB160 (for national payement) file
 
 ## Installation
 
