@@ -1,10 +1,9 @@
 {
     "name": "ladina/php-cfonb-afbnorme",
-    "description": "La norme AFB ou CFONB est une norme fran\u0000aise, d\u0000finie par le Comit\u0000 fran\u0000ais d'organisation et de normalisation bancaires et r\u0000pondant aux besoins de l\u0000Association fran\u0000aise des banques (AFB), en mati\u0000re de virement domestique ou virement \u0000tranger.",
+    "description": "PHP library to generate CFONB / AFB bank transfer files: AFB160 (domestic / virement domestique) and AFB320 (international / virement étranger).",
     "type": "library",
-    "require": {
-        "php": ">=7.0"
-    },
+    "keywords": ["cfonb", "afb", "afb160", "afb320", "sepa", "virement", "bank", "france", "etebac"],
+    "homepage": "https://github.com/ladinasedera/php-cfonb-afbnorme",
     "license": "MIT",
     "authors": [
         {
@@ -12,22 +11,26 @@
             "email": "ladina.sedera@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/ladinasedera/php-cfonb-afbnorme.git"
-    }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Ladina\\CFONB\\": "src/CFONB/",
-            "Ladina\\Factory\\": "src/Factory/",
-            "Tools\\": "src/Tools/",
-            "Library\\Exception\\": "src/Exception/"
-        }
+    "require": {
+        "php": "^8.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "6.5"
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ladina\\CFONB\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ladina\\CFONB\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
     }
 }

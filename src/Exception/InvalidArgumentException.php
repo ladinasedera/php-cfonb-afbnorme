@@ -1,11 +1,12 @@
 <?php
-	/**
-	 * Copyright (c) - 2020 : Ladina Sedera
-	 */
 
-	namespace Library\Exception;
+declare(strict_types=1);
 
-	class InvalidArgumentException extends Exception
-	{
+namespace Ladina\CFONB\Exception;
 
-	}
+/**
+ * Thrown when the data provided to build a CFONB file is missing or invalid.
+ */
+class InvalidArgumentException extends Exception
+{
+}

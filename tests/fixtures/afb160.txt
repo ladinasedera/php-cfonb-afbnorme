@@ -1,0 +1,4 @@
+0302        XXX       17500DUPOND                  V 01/01/26                E     XXXXXXXXXXXXXXXX                                               XXXX     
+0602        XXXVIR.1       DUPONT                  XXXX                            XXXXXXXXXXXXXXX0000000000010000RETRAIT UNTEL                  XXXXX     
+0602        XXXVIR.2       TOURNESOL               XXXXXX                          XXXXXXXXXXXXXXXX0000000000025000AUTRE RETRAIT                  XXXXX     
+0802        XXX                                                                                    0000000000035000                                          

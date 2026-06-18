@@ -1,11 +1,12 @@
 <?php
-	/**
-	 * Copyright (c) - 2020 : Ladina Sedera
-	 */
-	namespace Library\Exception;
 
+declare(strict_types=1);
 
-	class Exception extends \Exception
-	{
+namespace Ladina\CFONB\Exception;
 
-	}
+/**
+ * Base exception for the CFONB library.
+ */
+class Exception extends \Exception implements ExceptionInterface
+{
+}
